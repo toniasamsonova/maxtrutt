@@ -26,6 +26,7 @@
   --accent-soft: #EEF3FD;
   --hover: #F5F7FA;
   --visited: #3C4451;
+  --title: "Helvetica Neue", Helvetica, "helvetica-w01-roman", Arial, sans-serif;
   --font: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s5: 1.5rem; --s6: 2rem;
   --content: 70rem;
@@ -44,7 +45,6 @@ body {
   font-family: var(--font);
   font-size: 1rem;
   line-height: 1.45;
-  border-top: 3px solid var(--accent);
 }
 a { color: var(--accent); text-underline-offset: 0.14em; }
 button { font: inherit; color: inherit; }
@@ -55,17 +55,24 @@ button { font: inherit; color: inherit; }
 .wrap { max-width: var(--content); margin: 0 auto; padding: 0 var(--s5); }
 
 /* Masthead */
-.masthead { padding: 1.125rem 0 0.75rem; border-bottom: 2px solid var(--ink); }
+.masthead { padding: 1.25rem 0 1rem; border-bottom: 1px solid var(--rule); }
+.mt-nav { display: flex; gap: 1.25rem; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; font-family: var(--title); font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.02em; }
+.mt-nav a { color: #757575; text-decoration: none; }
+.mt-nav a:hover { color: var(--ink); }
+.mt-nav a[aria-current] { color: var(--ink); }
+.mast-sub { padding-top: 1.75rem; padding-bottom: 1rem; display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.page-title { margin: 0; font-family: var(--title); font-weight: 400; font-size: 2.5rem; line-height: 1.05; text-transform: uppercase; letter-spacing: 0.01em; display: flex; align-items: center; gap: 0.75rem; }
+.page-title .mark { width: 2.25rem; height: 2.25rem; flex: none; }
 .mast-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
-.brand { margin: 0; font-size: 2.375rem; line-height: 1; letter-spacing: -0.035em; font-weight: 700; }
+.brand { margin: 0; font-family: var(--title); font-size: 1.5rem; line-height: 1; font-weight: 400; text-transform: uppercase; letter-spacing: 0; }
 .brand a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; }
 .brand .mark { width: 2.5rem; height: 2.5rem; margin-right: 0.625rem; flex: none; }
 .brand .brand-b { font-weight: 400; color: var(--ink-2); letter-spacing: -0.02em; margin-left: 0.3em; }
-.dateline { margin: 0; font-size: 0.875rem; color: var(--ink-2); }
+.dateline { margin: 0; font-family: var(--title); font-size: 0.875rem; color: #757575; }
 .dateline b { color: var(--ink); font-weight: 500; }
 
 /* Toolbar */
-.toolbar { border-bottom: 1px solid var(--rule); padding: 0.625rem 0; }
+.toolbar { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 0.625rem 0; }
 .toolbar-row { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
 .search { flex: 1 1 16rem; max-width: 22rem; position: relative; }
 .search svg { position: absolute; left: 0.625rem; top: 50%; transform: translateY(-50%); width: 0.875rem; height: 0.875rem; color: var(--ink-3); pointer-events: none; }
@@ -125,9 +132,9 @@ select.ctl { appearance: none; -webkit-appearance: none; padding-right: 1.75rem;
 .feed, .articles { list-style: none; margin: 0; padding: 0; }
 .group-head {
   margin: 1.125rem 0 0; padding: 0 0 0.375rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--ink-2); border-bottom: 1px solid var(--ink); display: flex; gap: 0.75rem; align-items: baseline;
+  color: var(--ink-2); border-bottom: 1px solid var(--ink); display: flex; gap: 0.75rem; align-items: baseline; font-family: var(--title); font-weight: 400; letter-spacing: 0.06em;
 }
-.group-head .tag { color: var(--accent); }
+.group-head .tag { color: var(--ink); }
 .story {
   display: grid; grid-template-columns: var(--gutter) minmax(0, 1fr) var(--thumb-w); column-gap: 1.25rem;
   padding: 0.875rem 0 1rem; border-bottom: 1px solid var(--rule);
@@ -188,7 +195,11 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
 @media (max-width: 760px) {
   .wrap { padding: 0 var(--s4); }
   .masthead { padding: 0.875rem 0 0.625rem; }
-  .brand { font-size: 1.75rem; }
+  .brand { font-size: 1.25rem; }
+  .mt-nav { gap: 0.875rem; font-size: 0.8125rem; }
+  .page-title { font-size: 1.75rem; }
+  .page-title .mark { width: 1.75rem; height: 1.75rem; }
+  .mast-sub { padding-top: 1.25rem; padding-bottom: 0.75rem; }
   .brand .mark { width: 2rem; height: 2rem; margin-right: 0.5rem; }
   .brand .brand-b { font-size: 1.125rem; letter-spacing: 0; margin-left: 0.35em; }
   .dateline { font-size: 0.8125rem; }
@@ -231,10 +242,21 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
 
 <header class="masthead">
   <div class="wrap mast-row">
-    <h1 class="brand"><a href="#top" id="top"><img class="mark" src="marks/mark.png" alt="" width="40" height="40"><span class="brand-t">MT Post<span class="brand-b">News Wire</span></span></a></h1>
-    <p class="dateline"><b id="todayLine"></b><span id="todaySep"></span>Art news &amp; commentary from the newspapers, newest first</p>
+    <p class="brand"><a href="https://www.maxtrutt.com/" target="_top">Max Trutt</a></p>
+    <nav aria-label="maxtrutt.com"><ul class="mt-nav">
+      <li><a href="https://www.maxtrutt.com/about" target="_top">About</a></li>
+      <li><a href="https://www.maxtrutt.com/projects" target="_top">Projects</a></li>
+      <li><a href="https://www.maxtrutt.com/texts" target="_top">Texts</a></li>
+      <li><a href="https://www.maxtrutt.com/shop" target="_top">Shop</a></li>
+      <li><a href="https://www.maxtrutt.com/contact" target="_top">Contact</a></li>
+      <li><a href="#top" aria-current="page">News Wire</a></li>
+    </ul></nav>
   </div>
 </header>
+<div class="wrap mast-sub">
+  <h1 class="page-title" id="top"><img class="mark" src="marks/mark.png" alt="" width="36" height="36">MT Post News Wire</h1>
+  <p class="dateline"><span id="todayLine"></span><span id="todaySep"></span>Art news &amp; commentary from the newspapers</p>
+</div>
 
 <div class="toolbar">
   <div class="wrap toolbar-row">
