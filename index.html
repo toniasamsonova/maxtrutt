@@ -235,6 +235,24 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+body.reading .toolbar, body.reading .status, body.reading #main { display: none; }
+#reader { display: none; }
+body.reading #reader { display: block; }
+.reader { padding: 1.5rem 0 3rem; max-width: var(--measure); }
+.reader .back { display: inline-block; margin-bottom: 1.25rem; font-size: 0.875rem; color: var(--accent); text-decoration: none; }
+.reader .back:hover { text-decoration: underline; }
+.reader .r-meta { margin: 0 0 0.6rem; font-size: 0.8125rem; color: var(--ink-3); }
+.reader .r-meta .pub { color: var(--ink); font-weight: 600; }
+.reader h2 { margin: 0 0 0.5rem; font-size: 1.75rem; line-height: 1.2; font-weight: 600; }
+.reader .r-en { margin: 0 0 0.5rem; font-style: italic; color: var(--ink-2); }
+.reader .r-by { margin: 0 0 1.25rem; font-size: 0.875rem; color: var(--ink-2); }
+.reader .r-lbl { margin: 1.25rem 0 0.35rem; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; }
+.reader p.r-text, .reader blockquote { margin: 0; font-size: 1.0625rem; line-height: 1.6; color: var(--ink); }
+.reader blockquote { padding-left: 1rem; border-left: 3px solid var(--rule); }
+.reader .r-src { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.reader .r-src a { display: inline-block; padding: 0.6rem 1rem; background: var(--accent); color: #fff; text-decoration: none; border-radius: 4px; font-weight: 600; }
+.reader .r-src p { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--ink-3); }
 </style>
 </head>
 <body>
@@ -341,6 +359,8 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
   <div class="feed-end" id="feedEnd"></div>
 </main>
 
+<section class="wrap" id="reader" aria-live="polite"></section>
+
 <footer>
   <div class="wrap">
     <p>MT Post News Wire collects visual-art coverage from newspapers. Summaries marked as wire summaries are written by the wire desk; headlines, bylines and standfirsts belong to the publications, which are linked on every item.</p>
@@ -365,7 +385,7 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     typeSel: $('typeSel'), accessSel: $('accessSel'), sortSel: $('sortSel'),
     moreBtn: $('moreBtn'), morePop: $('morePop'), dateFrom: $('dateFrom'), dateTo: $('dateTo'), topicList: $('topicList'), regionList: $('regionList'), kindList: $('kindList'), moreClear: $('moreClear'), moreDone: $('moreDone'),
     panelDone: $('panelDone'), countText: $('countText'), chips: $('chips'), resetBtn: $('resetBtn'), clearAllBtn: $('clearAllBtn'),
-    notice: $('notice'), freshText: $('freshText'), feed: $('feed'), feedEnd: $('feedEnd'), footSources: $('footSources')
+    notice: $('notice'), freshText: $('freshText'), feed: $('feed'), feedEnd: $('feedEnd'), footSources: $('footSources'), reader: $('reader')
   };
 
   // ---------- state ----------
@@ -555,12 +575,12 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     const hasDek = !!(a.subtitle && a.subtitle.trim());
     let html = '<div class="when">' + when + '</div><div class="body">';
     html += '<p class="meta">' + metaBits.join(' ') + '</p>';
-    html += '<h3 class="hed"><a href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">' + esc(a.headline) + '</a></h3>';
+    html += '<h3 class="hed"><a href="#a/' + esc(a.id) + '">' + esc(a.headline) + '</a></h3>';
     if (a.headline_en) html += '<p class="hed-en">' + esc(a.headline_en) + '</p>';
     if (hasDek) html += '<p class="dek">' + esc(a.subtitle) + '</p>';
     if (a.summary) html += '<p class="summary">' + (hasDek ? '<span class="lbl">Wire summary</span>' : '') + esc(a.summary) + '</p>';
     if (a.author) html += '<p class="byline">By ' + esc(a.author) + '</p>';
-    html += '<p class="actions"><a class="read" href="' + esc(a.url) + '">Read at ' + esc(a.publication) + '</a>';
+    html += '<p class="actions"><a class="read" href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">Read at ' + esc(a.publication) + '</a>';
     if (a._hasClip) {
       const open = state.openClips.includes(a.id);
       html += '<button type="button" class="clip-toggle" data-clip="' + esc(a.id) + '" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="clip-' + esc(a.id) + '">' + (open ? 'Hide clipping' : 'Show clipping') + '</button>';
@@ -805,9 +825,47 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     saveState();
   });
 
+
+  // ---------- on-site article page ----------
+  let reading = false, routed = false, lastFeedY = 0;
+  function route() {
+    const m = /^#a\/([a-f0-9]+)$/.exec(location.hash);
+    const a = m && data && data.articles.find(x => x.id === m[1]);
+    if (a) {
+      if (!reading) lastFeedY = window.scrollY || savedScroll || 0;
+      reading = true;
+      document.body.classList.add('reading');
+      let when = '';
+      if (a._date) when = a.published.length === 10 ? fmtDate.format(a._date) : fmtDate.format(a._date) + ', ' + fmtTime.format(a._date);
+      const meta = ['<span class="pub">' + esc(a.publication) + '</span>', esc(when), a.type ? esc(TYPE_LABEL[a.type] || a.type) : '', a.access ? esc(a.access) : ''].filter(Boolean).join(' · ');
+      let h = '<article class="reader"><a class="back" href="#" id="backLink">&larr; Back to the wire</a>';
+      h += '<p class="r-meta">' + meta + '</p><h2>' + esc(a.headline) + '</h2>';
+      if (a.headline_en) h += '<p class="r-en">' + esc(a.headline_en) + '</p>';
+      if (a.author) h += '<p class="r-by">By ' + esc(a.author) + '</p>';
+      if (a.subtitle) h += '<p class="r-text">' + esc(a.subtitle) + '</p>';
+      if (a.summary) h += '<p class="r-lbl">Wire summary</p><p class="r-text">' + esc(a.summary) + '</p>';
+      if (a.lede) h += '<p class="r-lbl">Opening of the article, from ' + esc(a.publication) + '</p><blockquote>' + esc(a.lede) + '</blockquote>';
+      if (a.clipping) h += '<p class="r-lbl">Clipping</p><blockquote>' + esc(a.clipping) + '</blockquote>';
+      h += '<div class="r-src"><a href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">Read the full article at ' + esc(a.publication) + ' &rarr;</a><p>Opens on the publisher&rsquo;s site in a new tab. Some publishers ask you to subscribe or accept cookies.</p></div></article>';
+      el.reader.innerHTML = h;
+      document.title = a.headline + ' · MT Post News Wire';
+      window.scrollTo(0, 0);
+      document.getElementById('backLink').addEventListener('click', e => { e.preventDefault(); if (history.length > 1 && document.referrer !== undefined && window.__fromFeed) history.back(); else location.hash = ''; });
+    } else if (reading) {
+      reading = false;
+      document.body.classList.remove('reading');
+      document.title = 'MT Post News Wire';
+      const go = () => window.scrollTo(0, lastFeedY);
+      go(); setTimeout(go, 30); setTimeout(go, 150);
+    }
+  }
+  window.addEventListener('hashchange', () => { if (/^#a\//.test(location.hash)) window.__fromFeed = true; route(); });
+  const _render = render;
+  render = function () { _render(); if (!routed && data) { routed = true; route(); } };
+
   // ---------- persistence ----------
   function saveState() {
-    store.set('anw.state', { s: state, y: window.scrollY, panel: el.filtersPanel.classList.contains('open') });
+    store.set('anw.state', { s: state, y: reading ? lastFeedY : window.scrollY, panel: el.filtersPanel.classList.contains('open') });
   }
   let scrollTimer = null;
   window.addEventListener('scroll', () => { if (scrollTimer) return; scrollTimer = setTimeout(() => { scrollTimer = null; saveState(); }, 200); }, { passive: true });

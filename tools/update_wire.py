@@ -109,6 +109,25 @@ def get_source(src, window):
     log["items"] = len(arts)
     return arts, log
 
+def get_lede(url):
+    """Opening paragraph only (max 80 words), from the page's own markup."""
+    try:
+        body, _ = fetch(url, 20)
+    except Exception:
+        return ""
+    t = body.decode("utf-8", "ignore")
+    cands = []
+    art = re.search(r"<article[\s\S]*?</article>", t, re.I)
+    for m in re.finditer(r"<p[^>]*>([\s\S]*?)</p>", art.group(0) if art else t, re.I):
+        cands.append(strip(m.group(1)))
+    for m in re.finditer(r"<meta[^>]+(?:property=[\"']og:description[\"']|name=[\"']description[\"'])[^>]*content=[\"']([^\"']+)", t, re.I):
+        cands.append(strip(m.group(1)))
+    for c in cands:
+        if len(c) >= 80 and not re.search(r"cookie|subscribe|sign in|javascript|privacy|consent", c, re.I):
+            w = c.split()
+            return " ".join(w[:80]) + (" …" if len(w) > 80 else "")
+    return ""
+
 def main():
     data = json.load(open(DATA, encoding="utf-8"))
     window = data["window_start"]
@@ -129,6 +148,10 @@ def main():
             a.update(region=s.get("region", ""), kind=s.get("kind", ""), country=s.get("country", ""))
             data["articles"].append(a)
             added += 1
+    todo = [a for a in data["articles"] if "lede" not in a][:60]
+    with ThreadPoolExecutor(8) as ex:
+        for a, l in zip(todo, ex.map(lambda x: get_lede(x["url"]), todo)):
+            a["lede"] = l
     data["articles"] = [a for a in data["articles"] if a["published"] >= window[:10]]
     data["articles"].sort(key=sort_key, reverse=True)
     counts = {}
