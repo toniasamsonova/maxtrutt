@@ -568,7 +568,7 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     html += '</p>';
     if (a._hasClip) {
       const open = state.openClips.includes(a.id);
-      html += '<div class="clip" id="clip-' + esc(a.id) + '"' + (open ? '' : ' hidden') + '><blockquote>' + esc(a.clipping) + '</blockquote><p class="clip-attr">Clipping from ' + esc(a.publication) + ' · <a href="' + esc(a.url) + '">Read at ' + esc(a.publication) + '</a></p></div>';
+      html += '<div class="clip" id="clip-' + esc(a.id) + '"' + (open ? '' : ' hidden') + '><blockquote>' + esc(a.clipping) + '</blockquote><p class="clip-attr">Clipping from ' + esc(a.publication) + ' · <a href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">Read at ' + esc(a.publication) + '</a></p></div>';
     }
     html += '</div>';
     if (a.image) html += '<div class="thumb"><img src="' + esc(a.image) + '" alt="" width="112" height="84" loading="lazy"></div>';
