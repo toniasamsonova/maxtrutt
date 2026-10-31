@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MT Post News Wire</title>
+<meta name="description" content="MT Post News Wire: art news and commentary from newspapers, in one chronological stream.">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<base target="_top">
+<link rel="icon" type="image/png" href="marks/mark-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Single light theme by design: a bright reading surface, near-black type, one blue accent.
+     Layout: a newspaper-style masthead over one chronological stream with a fixed time gutter. */
+  color-scheme: light;
+  --surface: #FFFFFF;
+  --ink: #111318;
+  --ink-2: #59616B;
+  --ink-3: #6B7480;
+  --rule: #D9DEE5;
+  --accent: #2457D6;
+  --accent-soft: #EEF3FD;
+  --hover: #F5F7FA;
+  --visited: #3C4451;
+  --font: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s5: 1.5rem; --s6: 2rem;
+  --content: 70rem;
+  --gutter: 5.5rem;
+  --thumb-w: 7rem;
+  --thumb-h: 5.25rem;
+  --measure: 50rem;
+}
+* { box-sizing: border-box; }
+/* 16px at 1440px wide (the spec), growing gently on very wide screens so the page never reads as a thin strip of small type. */
+html { font-size: clamp(16px, calc(10px + 0.42vw), 20px); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.45;
+  border-top: 3px solid var(--accent);
+}
+a { color: var(--accent); text-underline-offset: 0.14em; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: var(--s4); top: -3rem; background: var(--ink); color: #fff; padding: var(--s2) var(--s3); z-index: 20; }
+.skip:focus { top: var(--s2); }
+.wrap { max-width: var(--content); margin: 0 auto; padding: 0 var(--s5); }
+
+/* Masthead */
+.masthead { padding: 1.125rem 0 0.75rem; border-bottom: 2px solid var(--ink); }
+.mast-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.brand { margin: 0; font-size: 2.375rem; line-height: 1; letter-spacing: -0.035em; font-weight: 700; }
+.brand a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; }
+.brand .mark { width: 2.5rem; height: 2.5rem; margin-right: 0.625rem; flex: none; }
+.brand .brand-b { font-weight: 400; color: var(--ink-2); letter-spacing: -0.02em; margin-left: 0.3em; }
+.dateline { margin: 0; font-size: 0.875rem; color: var(--ink-2); }
+.dateline b { color: var(--ink); font-weight: 500; }
+
+/* Toolbar */
+.toolbar { border-bottom: 1px solid var(--rule); padding: 0.625rem 0; }
+.toolbar-row { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+.search { flex: 1 1 16rem; max-width: 22rem; position: relative; }
+.search svg { position: absolute; left: 0.625rem; top: 50%; transform: translateY(-50%); width: 0.875rem; height: 0.875rem; color: var(--ink-3); pointer-events: none; }
+.search input {
+  width: 100%; height: 2.125rem; padding: 0 0.625rem 0 2rem; border: 1px solid var(--rule); border-radius: 6px;
+  font: inherit; font-size: 0.875rem; color: var(--ink); background: #fff;
+}
+.search input::placeholder { color: var(--ink-3); }
+.search input:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+.filters { display: flex; align-items: center; gap: 0.375rem; flex-wrap: wrap; margin-left: auto; }
+.ctl {
+  height: 2.125rem; padding: 0 0.625rem; border: 1px solid var(--rule); border-radius: 6px; background: #fff;
+  font-size: 0.875rem; font-weight: 500; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 0.375rem; white-space: nowrap;
+}
+.ctl:hover { background: var(--hover); }
+.ctl.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.ctl .caret { width: 0.4rem; height: 0.4rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-0.1rem) rotate(45deg); opacity: 0.6; }
+select.ctl { appearance: none; -webkit-appearance: none; padding-right: 1.75rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M2 3.5l3 3 3-3' fill='none' stroke='%2359616B' stroke-width='1.5'/></svg>");
+  background-repeat: no-repeat; background-position: right 0.6rem center; }
+.field { position: relative; }
+.pop {
+  position: absolute; top: calc(100% + 0.375rem); right: 0; z-index: 10; min-width: 17rem; max-width: 22rem;
+  background: #fff; border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 10px 30px rgba(17,19,24,0.10), 0 1px 2px rgba(17,19,24,0.06); padding: var(--s3);
+}
+.pop[hidden] { display: none; }
+.pop input[type="search"], .pop input[type="date"] {
+  width: 100%; height: 2rem; padding: 0 var(--s2); border: 1px solid var(--rule); border-radius: 6px; font: inherit; font-size: 0.875rem; color: var(--ink);
+}
+.pop-list { max-height: 16rem; overflow: auto; margin: var(--s2) 0; }
+.pop-list label, .topic-list label { display: flex; align-items: center; gap: var(--s2); padding: 0.3rem 0.25rem; font-size: 0.875rem; cursor: pointer; border-radius: 4px; min-height: 2rem; }
+.pop-list label:hover, .topic-list label:hover { background: var(--hover); }
+.pop-list input, .topic-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin: 0; }
+.pop-foot { display: flex; justify-content: space-between; gap: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--rule); }
+.pop-foot button, .linkish { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0.3rem 0.25rem; font-size: 0.875rem; font-weight: 500; }
+.pop-foot button:hover, .linkish:hover { text-decoration: underline; }
+.pop h4 { margin: var(--s2) 0 var(--s1); font-size: 0.75rem; font-weight: 600; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.06em; }
+.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+.date-row label { font-size: 0.75rem; color: var(--ink-2); }
+.filters-toggle { display: none; }
+.panel-done { display: none; }
+
+/* Status */
+.status { padding-top: 0.625rem; padding-bottom: 0.375rem; display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; font-size: 0.8125rem; color: var(--ink-2); }
+.status-main { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+.status-main .count { color: var(--ink); font-weight: 600; }
+.chip { display: inline-flex; align-items: center; gap: 0.375rem; border: 1px solid var(--rule); border-radius: 999px; padding: 0.1rem 0.5rem 0.1rem 0.625rem; font-size: 0.75rem; background: #fff; color: var(--ink); cursor: pointer; min-height: 1.625rem; }
+.chip:hover { background: var(--hover); }
+.chip .x { color: var(--ink-2); font-size: 0.9rem; line-height: 1; }
+.freshness { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+.notice { color: var(--ink); font-weight: 600; }
+.notice button { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0.25rem; font-size: inherit; font-weight: 600; }
+.notice button:hover { text-decoration: underline; }
+.notice.warn { color: #8A3B12; }
+
+/* Feed */
+.feed, .articles { list-style: none; margin: 0; padding: 0; }
+.group-head {
+  margin: 1.125rem 0 0; padding: 0 0 0.375rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-2); border-bottom: 1px solid var(--ink); display: flex; gap: 0.75rem; align-items: baseline;
+}
+.group-head .tag { color: var(--accent); }
+.story {
+  display: grid; grid-template-columns: var(--gutter) minmax(0, 1fr) var(--thumb-w); column-gap: 1.25rem;
+  padding: 0.875rem 0 1rem; border-bottom: 1px solid var(--rule);
+}
+.feed.no-images .story { grid-template-columns: var(--gutter) minmax(0, 1fr); }
+.feed.no-images .thumb { display: none; }
+@media (hover: hover) { .story:hover { background: var(--hover); } }
+.when { font-size: 0.8125rem; color: var(--ink-2); line-height: 1.35; padding-top: 0.2rem; font-variant-numeric: tabular-nums; }
+.when .clock { display: block; color: var(--ink); font-weight: 600; font-size: 0.9375rem; white-space: nowrap; }
+.when time { display: block; white-space: nowrap; }
+.when .muted { color: var(--ink-3); font-size: 0.75rem; }
+.body { min-width: 0; max-width: var(--measure); }
+.meta { margin: 0 0 0.3rem; font-size: 0.8125rem; color: var(--ink-2); line-height: 1.35; }
+.meta .pub { color: var(--ink); font-weight: 600; }
+.meta-a > span + span::before, .meta-b > span + span::before, .meta-a + .meta-b > span:first-child::before { content: "·"; margin: 0 0.4rem; color: #A8B0BA; }
+.meta .date-inline { display: none; }
+.hed { margin: 0; font-size: 1.5rem; font-weight: 600; line-height: 1.18; letter-spacing: -0.02em; overflow-wrap: anywhere; text-wrap: pretty; }
+.hed a { color: var(--ink); text-decoration: none; }
+.hed a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; }
+.hed a:visited { color: var(--visited); }
+.hed-en { margin: 0.25rem 0 0; font-size: 0.9375rem; color: var(--ink-2); font-style: italic; }
+.dek { margin: 0.4rem 0 0; font-size: 1rem; line-height: 1.45; color: var(--ink); }
+.summary { margin: 0.4rem 0 0; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); }
+.summary .lbl { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); margin-right: 0.4rem; font-weight: 600; }
+.byline { margin: 0.35rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
+.actions { margin: 0.5rem 0 0; font-size: 0.8125rem; display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; }
+.actions a { font-weight: 500; text-decoration: none; }
+.actions a:hover { text-decoration: underline; }
+.clip-toggle { background: none; border: 0; padding: 0; color: var(--ink-2); cursor: pointer; font-size: 0.8125rem; text-decoration: underline; text-underline-offset: 0.14em; min-height: 1.5rem; }
+.clip-toggle:hover { color: var(--ink); }
+.clip { margin: var(--s3) 0 0; padding: var(--s3) var(--s4); border-left: 2px solid var(--rule); background: var(--hover); }
+.clip[hidden] { display: none; }
+.clip blockquote { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink); }
+.clip .clip-attr { margin: var(--s2) 0 0; font-size: 0.75rem; color: var(--ink-2); }
+.thumb { width: var(--thumb-w); height: var(--thumb-h); overflow: hidden; background: var(--hover); border: 1px solid var(--rule); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.story.no-thumb .thumb { visibility: hidden; }
+
+/* Feed end */
+.feed-end { padding: var(--s5) 0 var(--s6); text-align: center; color: var(--ink-2); font-size: 0.875rem; }
+.end-mark { display: block; width: 2.25rem; height: 2.25rem; margin: 0 auto var(--s3); opacity: 0.9; }
+.empty .end-mark { margin: 0 0 var(--s3); }
+.btn {
+  height: 2.5rem; padding: 0 var(--s5); border: 1px solid var(--ink); border-radius: 6px; background: #fff; color: var(--ink); font-weight: 500; cursor: pointer; font-size: 0.875rem;
+}
+.btn:hover { background: var(--hover); }
+.btn[disabled] { opacity: 0.6; cursor: default; }
+.empty { padding: var(--s6) 0; color: var(--ink-2); }
+.empty h2 { font-size: 1.125rem; font-weight: 600; color: var(--ink); margin: 0 0 var(--s2); }
+.error-box { margin: var(--s5) 0; padding: var(--s4); border: 1px solid #E3B7A6; background: #FFF7F3; border-radius: 6px; color: #6B2E12; }
+.loading { padding: var(--s6) 0; color: var(--ink-2); }
+
+/* Footer */
+footer { border-top: 1px solid var(--rule); margin-top: var(--s6); padding: var(--s5) 0 var(--s6); font-size: 0.75rem; color: var(--ink-2); }
+footer p { margin: 0 0 var(--s2); max-width: 72ch; }
+
+/* Mobile */
+@media (max-width: 760px) {
+  .wrap { padding: 0 var(--s4); }
+  .masthead { padding: 0.875rem 0 0.625rem; }
+  .brand { font-size: 1.75rem; }
+  .brand .mark { width: 2rem; height: 2rem; margin-right: 0.5rem; }
+  .brand .brand-b { font-size: 1.125rem; letter-spacing: 0; margin-left: 0.35em; }
+  .dateline { font-size: 0.8125rem; }
+  .filters-toggle { display: inline-flex; min-height: 2.75rem; }
+  .filters-toggle .badge { display: inline-block; min-width: 1.25rem; padding: 0 0.375rem; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.75rem; line-height: 1.25rem; text-align: center; }
+  .filters-toggle .badge:empty { display: none; }
+  .search { max-width: none; flex-basis: 10rem; }
+  .search input { height: 2.75rem; font-size: 1rem; }
+  .filters { display: none; flex-direction: column; align-items: stretch; width: 100%; padding-top: var(--s3); border-top: 1px solid var(--rule); margin-top: var(--s3); gap: var(--s3); margin-left: 0; }
+  .filters.open { display: flex; }
+  .filters .field { width: 100%; }
+  .filters .lbl-m { position: static; width: auto; height: auto; margin: 0 0 0.25rem; overflow: visible; clip: auto; white-space: normal; display: block; font-size: 0.75rem; color: var(--ink-2); }
+  .filters .field > .ctl { width: 100%; justify-content: space-between; min-height: 2.75rem; font-size: 1rem; }
+  .pop { position: static; min-width: 0; max-width: none; box-shadow: none; margin-top: var(--s2); }
+  .panel-done { display: inline-flex; align-self: flex-end; }
+  .status { flex-direction: column; align-items: flex-start; gap: var(--s2); }
+  .story, .feed.no-images .story { grid-template-columns: minmax(0, 1fr); row-gap: var(--s3); padding: 0.875rem 0 1rem; }
+  .when { display: none; }
+  .meta .date-inline { display: inline; }
+  .meta-b { display: block; margin-top: 0.15rem; }
+  .meta-a + .meta-b > span:first-child::before { content: none; margin: 0; }
+  .body { max-width: none; }
+  .hed { font-size: 1.3125rem; }
+  .story.has-thumb { grid-template-columns: minmax(0, 1fr) 5.5rem; column-gap: var(--s3); }
+  .story.has-thumb .thumb { width: 5.5rem; height: 4.125rem; grid-row: 1; }
+  .actions a, .clip-toggle { min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .chip { min-height: 2rem; }
+}
+@media (max-width: 380px) {
+  .story.has-thumb { grid-template-columns: minmax(0, 1fr); }
+  .story.has-thumb .thumb { grid-row: auto; width: 100%; max-width: 14rem; height: auto; aspect-ratio: 4 / 3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#feed">Skip to articles</a>
+
+<header class="masthead">
+  <div class="wrap mast-row">
+    <h1 class="brand"><a href="#top" id="top"><img class="mark" src="marks/mark.png" alt="" width="40" height="40"><span class="brand-t">MT Post<span class="brand-b">News Wire</span></span></a></h1>
+    <p class="dateline"><b id="todayLine"></b><span id="todaySep"></span>Art news &amp; commentary from the newspapers, newest first</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap toolbar-row">
+    <form class="search" role="search" id="searchForm">
+      <label class="sr-only" for="q">Search headlines, summaries, publications and authors</label>
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Search headlines, summaries, sources, authors" autocomplete="off">
+    </form>
+    <button type="button" class="ctl filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filtersPanel">Filters <span class="badge" id="filterBadge"></span><span class="caret" aria-hidden="true"></span></button>
+    <div class="filters" id="filtersPanel">
+      <div class="field">
+        <button type="button" class="ctl" id="sourceBtn" aria-haspopup="true" aria-expanded="false" aria-controls="sourcePop">All sources <span class="caret" aria-hidden="true"></span></button>
+        <div class="pop" id="sourcePop" hidden>
+          <label class="sr-only" for="sourceSearch">Find a publication</label>
+          <input id="sourceSearch" type="search" placeholder="Find a publication" autocomplete="off">
+          <div class="pop-list" id="sourceList" role="group" aria-label="Publications"></div>
+          <div class="pop-foot"><button type="button" id="sourceClear">Clear</button><button type="button" id="sourceDone">Done</button></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="sr-only lbl-m" for="typeSel">Type</label>
+        <select id="typeSel" class="ctl">
+          <option value="all">All types</option>
+          <option value="News">News</option>
+          <option value="Commentary">Commentary</option>
+          <option value="Review">Reviews</option>
+          <option value="Feature">Features &amp; interviews</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="sr-only lbl-m" for="accessSel">Access</label>
+        <select id="accessSel" class="ctl">
+          <option value="all">All articles</option>
+          <option value="free">Free to read</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="sr-only lbl-m" for="sortSel">Sort</label>
+        <select id="sortSel" class="ctl">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="source">Source A–Z</option>
+        </select>
+      </div>
+      <div class="field">
+        <button type="button" class="ctl" id="moreBtn" aria-haspopup="true" aria-expanded="false" aria-controls="morePop">More filters <span class="caret" aria-hidden="true"></span></button>
+        <div class="pop" id="morePop" hidden>
+          <h4>Date range</h4>
+          <div class="date-row">
+            <label>From<input type="date" id="dateFrom"></label>
+            <label>To<input type="date" id="dateTo"></label>
+          </div>
+          <h4>Topic</h4>
+          <div class="topic-list" id="topicList" role="group" aria-label="Topics"></div>
+          <div class="pop-foot"><button type="button" id="moreClear">Clear</button><button type="button" id="moreDone">Done</button></div>
+        </div>
+      </div>
+      <button type="button" class="ctl panel-done" id="panelDone">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap status">
+  <div class="status-main" id="statusMain" aria-live="polite">
+    <span class="count" id="countText">Loading…</span>
+    <span id="chips"></span>
+    <button type="button" class="linkish" id="resetBtn" hidden>Reset filters</button>
+    <button type="button" class="linkish" id="clearAllBtn" hidden>Clear all</button>
+  </div>
+  <div class="freshness" id="freshness" aria-live="polite">
+    <span class="notice" id="notice"></span>
+    <span id="freshText"></span>
+  </div>
+</div>
+
+<main class="wrap" id="main">
+  <ol class="feed" id="feed" aria-label="Articles"></ol>
+  <div class="feed-end" id="feedEnd"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>MT Post News Wire collects visual-art coverage from newspapers. Summaries marked as wire summaries are written by the wire desk; headlines, bylines and standfirsts belong to the publications, which are linked on every item.</p>
+    <p id="footSources"></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  const DATA_URL = 'data.json';
+  const BATCH = 30;
+  const POLL_MS = 5 * 60 * 1000;
+  const TZ = 'Europe/London';
+  const TOPICS = ['Exhibitions', 'Museums & institutions', 'Art market', 'Artists', 'Policy & heritage'];
+  const TYPE_LABEL = { News: 'News', Commentary: 'Commentary', Review: 'Review', Feature: 'Feature', Interview: 'Interview' };
+
+  const $ = (id) => document.getElementById(id);
+  const el = {
+    q: $('q'), searchForm: $('searchForm'), filtersToggle: $('filtersToggle'), filterBadge: $('filterBadge'), filtersPanel: $('filtersPanel'),
+    sourceBtn: $('sourceBtn'), sourcePop: $('sourcePop'), sourceSearch: $('sourceSearch'), sourceList: $('sourceList'), sourceClear: $('sourceClear'), sourceDone: $('sourceDone'),
+    typeSel: $('typeSel'), accessSel: $('accessSel'), sortSel: $('sortSel'),
+    moreBtn: $('moreBtn'), morePop: $('morePop'), dateFrom: $('dateFrom'), dateTo: $('dateTo'), topicList: $('topicList'), moreClear: $('moreClear'), moreDone: $('moreDone'),
+    panelDone: $('panelDone'), countText: $('countText'), chips: $('chips'), resetBtn: $('resetBtn'), clearAllBtn: $('clearAllBtn'),
+    notice: $('notice'), freshText: $('freshText'), feed: $('feed'), feedEnd: $('feedEnd'), footSources: $('footSources')
+  };
+
+  // ---------- state ----------
+  const defaultState = () => ({ q: '', sources: [], type: 'all', access: 'all', sort: 'newest', topics: [], from: '', to: '', loaded: BATCH, openClips: [] });
+  let state = defaultState();
+  let data = null;           // { generated, articles: [...] }
+  let pending = null;        // newer dataset waiting for the reader to accept it
+  let lastChecked = null;
+  let pollTimer = null;
+  let restoring = false;
+  let savedScroll = 0;
+  let savedPanel = false;
+
+  const store = {
+    get(key) { try { const v = sessionStorage.getItem(key); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(key, v) { try { sessionStorage.setItem(key, JSON.stringify(v)); } catch (e) { /* storage may be unavailable */ } },
+    getLocal(key) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    setLocal(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) { /* ignore */ } }
+  };
+
+  // ---------- dates ----------
+  const fmtDate = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, day: 'numeric', month: 'short', year: 'numeric' });
+  const fmtTime = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+  const fmtLong = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const fmtParts = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' });
+  const fmtZone = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, timeZoneName: 'short' });
+
+  function londonDateKey(d) { return fmtParts.format(d); } // YYYY-MM-DD in Europe/London
+  function parseDateOnly(s) { const [y, m, d] = s.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d, 12)); }
+  function longDateFromKey(key) { return fmtLong.format(parseDateOnly(key)); }
+  function shortDateFromKey(key) { return fmtDate.format(parseDateOnly(key)); }
+  function zoneName() { const p = fmtZone.formatToParts(new Date()).find(x => x.type === 'timeZoneName'); return p ? p.value : 'UK time'; }
+
+  function prepare(a) {
+    const p = a.published || '';
+    a._dateOnly = p.length === 10;
+    a._missing = !p;
+    a._ts = null;
+    if (a._missing) { a._key = ''; }
+    else if (a._dateOnly) { a._key = p; }
+    else {
+      const d = new Date(p);
+      if (isNaN(d)) { a._missing = true; a._key = ''; }
+      else { a._ts = d.getTime(); a._key = londonDateKey(d); a._date = d; }
+    }
+    a._search = normalise([a.headline, a.headline_en, a.subtitle, a.summary, a.publication, a.author, a.section].filter(Boolean).join(' '));
+    a._hasClip = !!(a.clipping && a.clipping.trim() && clipAddsInfo(a));
+    return a;
+  }
+  function clipAddsInfo(a) {
+    const c = (a.clipping || '').trim();
+    const base = ((a.subtitle || '') + ' ' + (a.summary || '')).trim();
+    if (!c) return false;
+    if (base.indexOf(c) !== -1) return false;
+    return c.length > 40;
+  }
+  function normalise(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  // ---------- filtering and sorting ----------
+  function applyFilters(list) {
+    const q = normalise(state.q.trim());
+    const tokens = q ? q.split(/\s+/) : [];
+    return list.filter(a => {
+      if (state.sources.length && !state.sources.includes(a.publication)) return false;
+      if (state.type !== 'all') {
+        if (state.type === 'Feature') { if (a.type !== 'Feature' && a.type !== 'Interview') return false; }
+        else if (a.type !== state.type) return false;
+      }
+      if (state.access === 'free' && a.access !== 'Free to read') return false;
+      if (state.topics.length && !state.topics.includes(a.topic)) return false;
+      if (state.from && (!a._key || a._key < state.from)) return false;
+      if (state.to && (!a._key || a._key > state.to)) return false;
+      if (tokens.length && !tokens.every(t => a._search.indexOf(t) !== -1)) return false;
+      return true;
+    });
+  }
+  function cmpChrono(x, y, dir) {
+    // dir = -1 newest first, +1 oldest first. Undated items always go last.
+    if (x._missing && y._missing) return 0; if (x._missing) return 1; if (y._missing) return -1;
+    if (x._key !== y._key) return dir * (x._key < y._key ? -1 : 1);
+    // same London day: timed items first, date-only items at the end of the day group
+    if (x._dateOnly !== y._dateOnly) return x._dateOnly ? 1 : -1;
+    if (x._dateOnly) return 0;
+    return dir * (x._ts - y._ts);
+  }
+  function cmpNewest(x, y) { return cmpChrono(x, y, -1); }
+  function sortList(list) {
+    const out = list.slice();
+    if (state.sort === 'source') {
+      out.sort((x, y) => x.publication.localeCompare(y.publication, 'en', { sensitivity: 'base' }) || cmpNewest(x, y));
+    } else if (state.sort === 'oldest') {
+      out.sort((x, y) => cmpChrono(x, y, 1));
+    } else {
+      out.sort(cmpNewest);
+    }
+    return out;
+  }
+
+  // ---------- rendering ----------
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+  function render() {
+    if (!data) return;
+    const matches = sortList(applyFilters(data.articles));
+    const total = data.articles.length;
+    const visible = matches.slice(0, state.loaded);
+    const todayKey = londonDateKey(new Date());
+    const yKey = londonDateKey(new Date(Date.now() - 86400000));
+
+    // group
+    const groups = [];
+    let cur = null;
+    for (const a of visible) {
+      const gk = state.sort === 'source' ? a.publication : (a._missing ? '__nodate' : a._key);
+      if (!cur || cur.key !== gk) { cur = { key: gk, items: [] }; groups.push(cur); }
+      cur.items.push(a);
+    }
+    const frag = document.createDocumentFragment();
+    for (const g of groups) {
+      const li = document.createElement('li');
+      li.className = 'group';
+      const h = document.createElement('h2');
+      h.className = 'group-head';
+      if (state.sort === 'source') h.textContent = g.key;
+      else if (g.key === '__nodate') h.textContent = 'Date not provided';
+      else {
+        const tag = g.key === todayKey ? 'Today' : (g.key === yKey ? 'Yesterday' : '');
+        h.innerHTML = (tag ? '<span class="tag">' + tag + '</span> ' : '') + esc(longDateFromKey(g.key));
+      }
+      li.appendChild(h);
+      const ol = document.createElement('ol');
+      ol.className = 'articles';
+      for (const a of g.items) ol.appendChild(renderStory(a));
+      li.appendChild(ol);
+      frag.appendChild(li);
+    }
+    el.feed.replaceChildren(frag);
+    el.feed.classList.toggle('no-images', !visible.some(a => a.image));
+
+    // status
+    const filtersOn = activeFilterCount() > 0 || state.q.trim() !== '';
+    if (total === 0) el.countText.textContent = 'No articles yet';
+    else if (!filtersOn) el.countText.textContent = total + ' articles';
+    else if (matches.length === 0) el.countText.textContent = 'No articles match';
+    else el.countText.textContent = matches.length + ' of ' + total + ' articles match';
+    renderChips();
+    el.resetBtn.hidden = activeFilterCount() === 0;
+    el.clearAllBtn.hidden = state.q.trim() === '';
+    el.filterBadge.textContent = activeFilterCount() ? String(activeFilterCount()) : '';
+
+    // end state
+    if (matches.length === 0) {
+      el.feed.innerHTML = '<li class="empty"><img class="end-mark" src="marks/end.png" alt="" width="36" height="36"><h2>No articles match</h2><p>Try fewer filters or a shorter search.</p></li>';
+      el.feedEnd.innerHTML = '';
+    } else if (visible.length < matches.length) {
+      const remaining = matches.length - visible.length;
+      el.feedEnd.innerHTML = '<button type="button" class="btn" id="loadMore">Load more articles</button><div style="margin-top:8px">' + visible.length + ' of ' + matches.length + ' shown · ' + remaining + ' more</div>';
+      $('loadMore').addEventListener('click', loadMore);
+    } else {
+      el.feedEnd.innerHTML = '<img class="end-mark" src="marks/end.png" alt="" width="36" height="36">End of results · ' + matches.length + (matches.length === 1 ? ' article' : ' articles') + (filtersOn ? ' match' : ' since ' + esc(shortDateFromKey(londonDateKey(new Date(data.window_start || '2026-10-30T00:00:00Z')))));
+    }
+    renderFreshness();
+    saveState();
+  }
+
+  function renderStory(a) {
+    const li = document.createElement('li');
+    const art = document.createElement('article');
+    art.className = 'story ' + (a.image ? 'has-thumb' : 'no-thumb');
+    art.id = 'a-' + a.id;
+    const approx = a.precision === 'approx';
+    let when, dateInline;
+    if (a._missing) { when = '<span class="muted">Date not provided</span>'; dateInline = 'Date not provided'; }
+    else if (a._dateOnly) { when = '<time datetime="' + esc(a._key) + '">' + esc(shortDateFromKey(a._key)) + '</time>'; dateInline = shortDateFromKey(a._key); }
+    else {
+      const t = fmtTime.format(a._date);
+      when = '<span class="clock"' + (approx ? ' title="Approximate time, taken from a news index"' : '') + '>' + (approx ? '~' : '') + esc(t) + '</span><time datetime="' + esc(a.published) + '">' + esc(fmtDate.format(a._date)) + '</time>';
+      dateInline = fmtDate.format(a._date) + ', ' + (approx ? '~' : '') + t;
+    }
+    const metaA = ['<span class="pub">' + esc(a.publication) + '</span>', '<span class="date-inline">' + esc(dateInline) + '</span>'];
+    const metaB = [];
+    if (a.type) metaB.push('<span class="kind">' + esc(TYPE_LABEL[a.type] || a.type) + '</span>');
+    if (a.access) metaB.push('<span class="access">' + esc(a.access) + '</span>');
+    const metaBits = ['<span class="meta-a">' + metaA.join(' ') + '</span>', '<span class="meta-b">' + metaB.join(' ') + '</span>'];
+    const hasDek = !!(a.subtitle && a.subtitle.trim());
+    let html = '<div class="when">' + when + '</div><div class="body">';
+    html += '<p class="meta">' + metaBits.join(' ') + '</p>';
+    html += '<h3 class="hed"><a href="' + esc(a.url) + '">' + esc(a.headline) + '</a></h3>';
+    if (a.headline_en) html += '<p class="hed-en">' + esc(a.headline_en) + '</p>';
+    if (hasDek) html += '<p class="dek">' + esc(a.subtitle) + '</p>';
+    if (a.summary) html += '<p class="summary">' + (hasDek ? '<span class="lbl">Wire summary</span>' : '') + esc(a.summary) + '</p>';
+    if (a.author) html += '<p class="byline">By ' + esc(a.author) + '</p>';
+    html += '<p class="actions"><a class="read" href="' + esc(a.url) + '">Read at ' + esc(a.publication) + '</a>';
+    if (a._hasClip) {
+      const open = state.openClips.includes(a.id);
+      html += '<button type="button" class="clip-toggle" data-clip="' + esc(a.id) + '" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="clip-' + esc(a.id) + '">' + (open ? 'Hide clipping' : 'Show clipping') + '</button>';
+    }
+    html += '</p>';
+    if (a._hasClip) {
+      const open = state.openClips.includes(a.id);
+      html += '<div class="clip" id="clip-' + esc(a.id) + '"' + (open ? '' : ' hidden') + '><blockquote>' + esc(a.clipping) + '</blockquote><p class="clip-attr">Clipping from ' + esc(a.publication) + ' · <a href="' + esc(a.url) + '">Read at ' + esc(a.publication) + '</a></p></div>';
+    }
+    html += '</div>';
+    if (a.image) html += '<div class="thumb"><img src="' + esc(a.image) + '" alt="" width="112" height="84" loading="lazy"></div>';
+    else html += '<div class="thumb" aria-hidden="true"></div>';
+    art.innerHTML = html;
+    li.appendChild(art);
+    return li;
+  }
+
+  function renderChips() {
+    const chips = [];
+    const mk = (label, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.innerHTML = esc(label) + ' <span class="x" aria-hidden="true">×</span>'; b.setAttribute('aria-label', 'Remove filter: ' + label); b.addEventListener('click', fn); return b; };
+    for (const s of state.sources) chips.push(mk('Source: ' + s, () => { state.sources = state.sources.filter(x => x !== s); syncControls(); changed(); }));
+    if (state.type !== 'all') chips.push(mk('Type: ' + ({ Review: 'Reviews', Feature: 'Features & interviews' }[state.type] || state.type), () => { state.type = 'all'; syncControls(); changed(); }));
+    if (state.access !== 'all') chips.push(mk('Free to read', () => { state.access = 'all'; syncControls(); changed(); }));
+    for (const t of state.topics) chips.push(mk('Topic: ' + t, () => { state.topics = state.topics.filter(x => x !== t); syncControls(); changed(); }));
+    if (state.from || state.to) chips.push(mk('Dates: ' + (state.from ? shortDateFromKey(state.from) : 'start') + ' to ' + (state.to ? shortDateFromKey(state.to) : 'now'), () => { state.from = ''; state.to = ''; syncControls(); changed(); }));
+    if (state.sort !== 'newest') chips.push(mk('Sort: ' + ({ oldest: 'Oldest first', source: 'Source A–Z' }[state.sort]), () => { state.sort = 'newest'; syncControls(); changed(); }));
+    el.chips.replaceChildren(...chips);
+  }
+  function activeFilterCount() {
+    return state.sources.length + (state.type !== 'all' ? 1 : 0) + (state.access !== 'all' ? 1 : 0) + state.topics.length + ((state.from || state.to) ? 1 : 0) + (state.sort !== 'newest' ? 1 : 0);
+  }
+
+  function renderFreshness() {
+    const bits = [];
+    if (lastChecked) bits.push('Last checked ' + fmtTime.format(lastChecked));
+    if (data && data.generated) { const g = new Date(data.generated); if (!isNaN(g)) bits.push('Feed updated ' + fmtDate.format(g) + ', ' + fmtTime.format(g)); }
+    bits.push('Times in ' + TZ + ' (' + zoneName() + ')');
+    el.freshText.textContent = bits.join(' · ');
+  }
+  function setNotice(kind) {
+    el.notice.className = 'notice' + (kind === 'error' ? ' warn' : '');
+    if (kind === 'new') {
+      const n = pending._newCount;
+      if (state.sort === 'newest') el.notice.innerHTML = esc(n + (n === 1 ? ' new article' : ' new articles')) + ' · <button type="button" id="applyNew">Show</button>';
+      else el.notice.innerHTML = 'Updates available · <button type="button" id="applyNew">Refresh</button>';
+      $('applyNew').addEventListener('click', applyPending);
+    } else if (kind === 'error') {
+      el.notice.innerHTML = 'Couldn’t check for updates · <button type="button" id="retryPoll">Retry</button>';
+      $('retryPoll').addEventListener('click', () => poll(true));
+    } else el.notice.innerHTML = '';
+  }
+
+  // ---------- data loading ----------
+  async function fetchData() {
+    const r = await fetch(DATA_URL, { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    if (!j || !Array.isArray(j.articles)) throw new Error('Bad data');
+    j.articles.forEach(prepare);
+    return j;
+  }
+  async function initialLoad() {
+    el.feed.innerHTML = '<li class="loading">Loading the latest coverage…</li>';
+    try {
+      data = await fetchData();
+      lastChecked = new Date();
+      store.setLocal('anw.data', { generated: data.generated, raw: data });
+      afterData();
+    } catch (e) {
+      const cached = store.getLocal('anw.data');
+      if (cached && cached.raw && Array.isArray(cached.raw.articles)) {
+        data = cached.raw; data.articles.forEach(prepare);
+        afterData();
+        el.feed.insertAdjacentHTML('afterbegin', '<li class="error-box">The feed could not be refreshed, so this is the version saved from your last visit. <button type="button" class="linkish" id="retryInit">Retry</button></li>');
+        $('retryInit').addEventListener('click', initialLoad);
+      } else {
+        el.feed.innerHTML = '';
+        el.countText.textContent = 'Feed unavailable';
+        el.feedEnd.innerHTML = '<div class="error-box">The feed could not be loaded. <button type="button" class="linkish" id="retryInit">Retry</button></div>';
+        $('retryInit').addEventListener('click', initialLoad);
+      }
+    }
+  }
+  function afterData() {
+    buildSourceList();
+    buildTopicList();
+    el.footSources.textContent = 'Connected sources (' + (data.publications || []).length + '): ' + (data.publications || []).join(', ') + '.';
+    render();
+    if (restoring) { restoreScroll(); restoring = false; }
+    startPolling();
+  }
+  function startPolling() {
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(() => poll(false), POLL_MS);
+  }
+  async function poll(manual) {
+    try {
+      const j = await fetchData();
+      lastChecked = new Date();
+      const known = new Set(data.articles.map(a => a.id));
+      const fresh = j.articles.filter(a => !known.has(a.id));
+      if (fresh.length || j.generated !== data.generated) {
+        if (fresh.length === 0 && j.articles.length === data.articles.length) { data.generated = j.generated; renderFreshness(); return; }
+        pending = j; pending._newCount = fresh.length;
+        setNotice('new');
+      } else setNotice('');
+      renderFreshness();
+    } catch (e) {
+      setNotice('error');
+    }
+  }
+  function applyPending() {
+    if (!pending) return;
+    data = pending; pending = null;
+    store.setLocal('anw.data', { generated: data.generated, raw: data });
+    setNotice('');
+    buildSourceList(); buildTopicList();
+    render();
+    if (state.sort === 'newest') window.scrollTo({ top: 0 });
+  }
+
+  // ---------- controls ----------
+  function buildSourceList() {
+    const pubs = (data.publications && data.publications.length) ? data.publications : Array.from(new Set(data.articles.map(a => a.publication))).sort((a, b) => a.localeCompare(b));
+    const q = normalise(el.sourceSearch.value.trim());
+    const frag = document.createDocumentFragment();
+    for (const p of pubs) {
+      if (q && normalise(p).indexOf(q) === -1) continue;
+      const lab = document.createElement('label');
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.value = p; cb.checked = state.sources.includes(p);
+      cb.addEventListener('change', () => { if (cb.checked) { if (!state.sources.includes(p)) state.sources.push(p); } else state.sources = state.sources.filter(x => x !== p); syncSourceBtn(); changed(); });
+      lab.appendChild(cb); lab.appendChild(document.createTextNode(p));
+      frag.appendChild(lab);
+    }
+    el.sourceList.replaceChildren(frag);
+    if (!el.sourceList.children.length) el.sourceList.innerHTML = '<div style="padding:6px 4px;color:var(--ink-2)">No publication matches</div>';
+    syncSourceBtn();
+  }
+  function syncSourceBtn() {
+    const n = state.sources.length;
+    el.sourceBtn.innerHTML = esc(n === 0 ? 'All sources' : (n === 1 ? state.sources[0] : n + ' sources')) + ' <span class="caret" aria-hidden="true"></span>';
+    el.sourceBtn.classList.toggle('on', n > 0);
+  }
+  function buildTopicList() {
+    const frag = document.createDocumentFragment();
+    for (const t of TOPICS) {
+      const lab = document.createElement('label');
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.value = t; cb.checked = state.topics.includes(t);
+      cb.addEventListener('change', () => { if (cb.checked) { if (!state.topics.includes(t)) state.topics.push(t); } else state.topics = state.topics.filter(x => x !== t); syncMoreBtn(); changed(); });
+      lab.appendChild(cb); lab.appendChild(document.createTextNode(t));
+      frag.appendChild(lab);
+    }
+    el.topicList.replaceChildren(frag);
+    syncMoreBtn();
+  }
+  function syncMoreBtn() {
+    const n = state.topics.length + ((state.from || state.to) ? 1 : 0);
+    el.moreBtn.innerHTML = esc(n ? 'More filters (' + n + ')' : 'More filters') + ' <span class="caret" aria-hidden="true"></span>';
+    el.moreBtn.classList.toggle('on', n > 0);
+  }
+  function syncControls() {
+    el.q.value = state.q; el.typeSel.value = state.type; el.accessSel.value = state.access; el.sortSel.value = state.sort;
+    el.dateFrom.value = state.from; el.dateTo.value = state.to;
+    if (data) { buildSourceList(); buildTopicList(); }
+  }
+  function changed() { state.loaded = BATCH; render(); }
+  function loadMore() {
+    const before = el.feed.querySelectorAll('.story').length;
+    state.loaded += BATCH;
+    render();
+    const stories = el.feed.querySelectorAll('.story');
+    const first = stories[before];
+    if (first) { const link = first.querySelector('.hed a'); if (link) link.focus({ preventScroll: true }); }
+  }
+
+  // popovers
+  function openPop(btn, pop) { pop.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+  function closePop(btn, pop, refocus) { if (pop.hidden) return; pop.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (refocus) btn.focus(); }
+  el.sourceBtn.addEventListener('click', () => { if (el.sourcePop.hidden) { closePop(el.moreBtn, el.morePop); openPop(el.sourceBtn, el.sourcePop); el.sourceSearch.focus(); } else closePop(el.sourceBtn, el.sourcePop); });
+  el.moreBtn.addEventListener('click', () => { if (el.morePop.hidden) { closePop(el.sourceBtn, el.sourcePop); openPop(el.moreBtn, el.morePop); el.dateFrom.focus(); } else closePop(el.moreBtn, el.morePop); });
+  el.sourceDone.addEventListener('click', () => closePop(el.sourceBtn, el.sourcePop, true));
+  el.moreDone.addEventListener('click', () => closePop(el.moreBtn, el.morePop, true));
+  el.sourceClear.addEventListener('click', () => { state.sources = []; el.sourceSearch.value = ''; buildSourceList(); changed(); });
+  el.moreClear.addEventListener('click', () => { state.topics = []; state.from = ''; state.to = ''; syncControls(); changed(); });
+  el.sourceSearch.addEventListener('input', buildSourceList);
+  document.addEventListener('click', (e) => {
+    if (!el.sourcePop.hidden && !el.sourcePop.contains(e.target) && e.target !== el.sourceBtn && !el.sourceBtn.contains(e.target)) closePop(el.sourceBtn, el.sourcePop);
+    if (!el.morePop.hidden && !el.morePop.contains(e.target) && e.target !== el.moreBtn && !el.moreBtn.contains(e.target)) closePop(el.moreBtn, el.morePop);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closePop(el.sourceBtn, el.sourcePop, true); closePop(el.moreBtn, el.morePop, true); }
+  });
+
+  // mobile filters panel
+  function setPanel(open) { el.filtersPanel.classList.toggle('open', open); el.filtersToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  el.filtersToggle.addEventListener('click', () => { const open = !el.filtersPanel.classList.contains('open'); setPanel(open); if (open) el.sourceBtn.focus(); });
+  el.panelDone.addEventListener('click', () => { setPanel(false); el.filtersToggle.focus(); });
+
+  // selects and inputs
+  el.typeSel.addEventListener('change', () => { state.type = el.typeSel.value; changed(); });
+  el.accessSel.addEventListener('change', () => { state.access = el.accessSel.value; changed(); });
+  el.sortSel.addEventListener('change', () => { state.sort = el.sortSel.value; if (pending) setNotice('new'); changed(); });
+  el.dateFrom.addEventListener('change', () => { state.from = el.dateFrom.value; syncMoreBtn(); changed(); });
+  el.dateTo.addEventListener('change', () => { state.to = el.dateTo.value; syncMoreBtn(); changed(); });
+  let qTimer = null;
+  el.q.addEventListener('input', () => { clearTimeout(qTimer); qTimer = setTimeout(() => { state.q = el.q.value; changed(); }, 160); });
+  el.searchForm.addEventListener('submit', (e) => { e.preventDefault(); clearTimeout(qTimer); state.q = el.q.value; changed(); });
+  el.resetBtn.addEventListener('click', () => { const q = state.q; state = defaultState(); state.q = q; el.sourceSearch.value = ''; syncControls(); render(); });
+  el.clearAllBtn.addEventListener('click', () => { state = defaultState(); el.sourceSearch.value = ''; syncControls(); render(); el.q.focus(); });
+
+  // clippings
+  el.feed.addEventListener('click', (e) => {
+    const b = e.target.closest('.clip-toggle');
+    if (!b) return;
+    const id = b.getAttribute('data-clip');
+    const box = document.getElementById('clip-' + id);
+    const open = box.hidden;
+    box.hidden = !open;
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    b.textContent = open ? 'Hide clipping' : 'Show clipping';
+    if (open) { if (!state.openClips.includes(id)) state.openClips.push(id); } else state.openClips = state.openClips.filter(x => x !== id);
+    saveState();
+  });
+
+  // ---------- persistence ----------
+  function saveState() {
+    store.set('anw.state', { s: state, y: window.scrollY, panel: el.filtersPanel.classList.contains('open') });
+  }
+  let scrollTimer = null;
+  window.addEventListener('scroll', () => { if (scrollTimer) return; scrollTimer = setTimeout(() => { scrollTimer = null; saveState(); }, 200); }, { passive: true });
+  window.addEventListener('pagehide', saveState);
+  function restoreScroll() {
+    if (savedPanel) setPanel(true);
+    const y = savedScroll || 0;
+    if (y > 0) {
+      const go = () => window.scrollTo(0, y);
+      go();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
+      setTimeout(go, 50);
+    }
+  }
+  function loadState() {
+    const saved = store.get('anw.state');
+    if (saved && saved.s) {
+      const d = defaultState();
+      state = Object.assign(d, saved.s);
+      if (!Array.isArray(state.sources)) state.sources = [];
+      if (!Array.isArray(state.topics)) state.topics = [];
+      if (!Array.isArray(state.openClips)) state.openClips = [];
+      if (typeof state.loaded !== 'number' || state.loaded < BATCH) state.loaded = BATCH;
+      savedScroll = saved.y || 0; savedPanel = !!saved.panel;
+      restoring = true;
+    }
+  }
+
+  // ---------- boot ----------
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  try { document.getElementById('todayLine').textContent = fmtLong.format(new Date()); document.getElementById('todaySep').textContent = ' · '; } catch (e) { /* keep the plain tagline */ }
+  loadState();
+  el.q.value = state.q; el.typeSel.value = state.type; el.accessSel.value = state.access; el.sortSel.value = state.sort; el.dateFrom.value = state.from; el.dateTo.value = state.to;
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && data) poll(false); });
+  initialLoad();
+})();
+</script>
+</body>
+</html>
