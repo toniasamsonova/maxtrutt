@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<base target="_top">
 <title>MT Post News Wire</title>
 <meta name="description" content="MT Post News Wire: art news and commentary from newspapers, in one chronological stream.">
 <meta name="color-scheme" content="light">
-<meta name="robots" content="noindex, nofollow">
-<base target="_top">
 <link rel="icon" type="image/png" href="marks/mark-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -309,6 +309,10 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
             <label>From<input type="date" id="dateFrom"></label>
             <label>To<input type="date" id="dateTo"></label>
           </div>
+          <h4>Region</h4>
+          <div class="topic-list" id="regionList" role="group" aria-label="Regions"></div>
+          <h4>Source type</h4>
+          <div class="topic-list" id="kindList" role="group" aria-label="Source types"></div>
           <h4>Topic</h4>
           <div class="topic-list" id="topicList" role="group" aria-label="Topics"></div>
           <div class="pop-foot"><button type="button" id="moreClear">Clear</button><button type="button" id="moreDone">Done</button></div>
@@ -359,13 +363,13 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     q: $('q'), searchForm: $('searchForm'), filtersToggle: $('filtersToggle'), filterBadge: $('filterBadge'), filtersPanel: $('filtersPanel'),
     sourceBtn: $('sourceBtn'), sourcePop: $('sourcePop'), sourceSearch: $('sourceSearch'), sourceList: $('sourceList'), sourceClear: $('sourceClear'), sourceDone: $('sourceDone'),
     typeSel: $('typeSel'), accessSel: $('accessSel'), sortSel: $('sortSel'),
-    moreBtn: $('moreBtn'), morePop: $('morePop'), dateFrom: $('dateFrom'), dateTo: $('dateTo'), topicList: $('topicList'), moreClear: $('moreClear'), moreDone: $('moreDone'),
+    moreBtn: $('moreBtn'), morePop: $('morePop'), dateFrom: $('dateFrom'), dateTo: $('dateTo'), topicList: $('topicList'), regionList: $('regionList'), kindList: $('kindList'), moreClear: $('moreClear'), moreDone: $('moreDone'),
     panelDone: $('panelDone'), countText: $('countText'), chips: $('chips'), resetBtn: $('resetBtn'), clearAllBtn: $('clearAllBtn'),
     notice: $('notice'), freshText: $('freshText'), feed: $('feed'), feedEnd: $('feedEnd'), footSources: $('footSources')
   };
 
   // ---------- state ----------
-  const defaultState = () => ({ q: '', sources: [], type: 'all', access: 'all', sort: 'newest', topics: [], from: '', to: '', loaded: BATCH, openClips: [] });
+  const defaultState = () => ({ q: '', sources: [], type: 'all', access: 'all', sort: 'newest', topics: [], regions: [], kinds: [], from: '', to: '', loaded: BATCH, openClips: [] });
   let state = defaultState();
   let data = null;           // { generated, articles: [...] }
   let pending = null;        // newer dataset waiting for the reader to accept it
@@ -432,6 +436,8 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
       }
       if (state.access === 'free' && a.access !== 'Free to read') return false;
       if (state.topics.length && !state.topics.includes(a.topic)) return false;
+      if (state.regions.length && !state.regions.includes(a.region)) return false;
+      if (state.kinds.length && !state.kinds.includes(a.kind)) return false;
       if (state.from && (!a._key || a._key < state.from)) return false;
       if (state.to && (!a._key || a._key > state.to)) return false;
       if (tokens.length && !tokens.every(t => a._search.indexOf(t) !== -1)) return false;
@@ -504,7 +510,7 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     // status
     const filtersOn = activeFilterCount() > 0 || state.q.trim() !== '';
     if (total === 0) el.countText.textContent = 'No articles yet';
-    else if (!filtersOn) el.countText.textContent = total + ' articles';
+    else if (!filtersOn) el.countText.textContent = total + ' articles from ' + new Set(data.articles.map(a => a.publication)).size + ' sources';
     else if (matches.length === 0) el.countText.textContent = 'No articles match';
     else el.countText.textContent = matches.length + ' of ' + total + ' articles match';
     renderChips();
@@ -578,13 +584,15 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     for (const s of state.sources) chips.push(mk('Source: ' + s, () => { state.sources = state.sources.filter(x => x !== s); syncControls(); changed(); }));
     if (state.type !== 'all') chips.push(mk('Type: ' + ({ Review: 'Reviews', Feature: 'Features & interviews' }[state.type] || state.type), () => { state.type = 'all'; syncControls(); changed(); }));
     if (state.access !== 'all') chips.push(mk('Free to read', () => { state.access = 'all'; syncControls(); changed(); }));
+    for (const r of state.regions) chips.push(mk('Region: ' + r, () => { state.regions = state.regions.filter(x => x !== r); buildMulti(); changed(); }));
+    for (const k of state.kinds) chips.push(mk('Source type: ' + k, () => { state.kinds = state.kinds.filter(x => x !== k); buildMulti(); changed(); }));
     for (const t of state.topics) chips.push(mk('Topic: ' + t, () => { state.topics = state.topics.filter(x => x !== t); syncControls(); changed(); }));
     if (state.from || state.to) chips.push(mk('Dates: ' + (state.from ? shortDateFromKey(state.from) : 'start') + ' to ' + (state.to ? shortDateFromKey(state.to) : 'now'), () => { state.from = ''; state.to = ''; syncControls(); changed(); }));
     if (state.sort !== 'newest') chips.push(mk('Sort: ' + ({ oldest: 'Oldest first', source: 'Source A–Z' }[state.sort]), () => { state.sort = 'newest'; syncControls(); changed(); }));
     el.chips.replaceChildren(...chips);
   }
   function activeFilterCount() {
-    return state.sources.length + (state.type !== 'all' ? 1 : 0) + (state.access !== 'all' ? 1 : 0) + state.topics.length + ((state.from || state.to) ? 1 : 0) + (state.sort !== 'newest' ? 1 : 0);
+    return state.sources.length + (state.type !== 'all' ? 1 : 0) + (state.access !== 'all' ? 1 : 0) + state.topics.length + state.regions.length + state.kinds.length + ((state.from || state.to) ? 1 : 0) + (state.sort !== 'newest' ? 1 : 0);
   }
 
   function renderFreshness() {
@@ -641,7 +649,7 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
   function afterData() {
     buildSourceList();
     buildTopicList();
-    el.footSources.textContent = 'Connected sources (' + (data.publications || []).length + '): ' + (data.publications || []).join(', ') + '.';
+    { const live = (data.publications || []).length, reg = (data.sources || []).length; el.footSources.textContent = 'Live sources (' + live + (reg ? ' of ' + reg + ' in the registry' : '') + '): ' + (data.publications || []).join(', ') + '.'; }
     render();
     if (restoring) { restoreScroll(); restoring = false; }
     startPolling();
@@ -708,10 +716,28 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
       frag.appendChild(lab);
     }
     el.topicList.replaceChildren(frag);
+    buildMulti();
+  }
+  function buildMulti() {
+    const mk = (box, key, vals) => {
+      const frag = document.createDocumentFragment();
+      for (const v of vals) {
+        const lab = document.createElement('label');
+        const cb = document.createElement('input'); cb.type = 'checkbox'; cb.value = v; cb.checked = state[key].includes(v);
+        cb.addEventListener('change', () => { if (cb.checked) { if (!state[key].includes(v)) state[key].push(v); } else state[key] = state[key].filter(x => x !== v); syncMoreBtn(); changed(); });
+        lab.appendChild(cb); lab.appendChild(document.createTextNode(v));
+        frag.appendChild(lab);
+      }
+      box.replaceChildren(frag);
+    };
+    const uniq = k => [...new Set((data.articles || []).map(a => a[k]).filter(Boolean))];
+    const RO = ['Europe','United States','Canada','Latin America','Asia','Australia & NZ','Middle East','Africa','Global'];
+    mk(el.regionList, 'regions', uniq('region').sort((a, b) => RO.indexOf(a) - RO.indexOf(b)));
+    mk(el.kindList, 'kinds', uniq('kind'));
     syncMoreBtn();
   }
   function syncMoreBtn() {
-    const n = state.topics.length + ((state.from || state.to) ? 1 : 0);
+    const n = state.topics.length + state.regions.length + state.kinds.length + ((state.from || state.to) ? 1 : 0);
     el.moreBtn.innerHTML = esc(n ? 'More filters (' + n + ')' : 'More filters') + ' <span class="caret" aria-hidden="true"></span>';
     el.moreBtn.classList.toggle('on', n > 0);
   }
@@ -738,7 +764,7 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
   el.sourceDone.addEventListener('click', () => closePop(el.sourceBtn, el.sourcePop, true));
   el.moreDone.addEventListener('click', () => closePop(el.moreBtn, el.morePop, true));
   el.sourceClear.addEventListener('click', () => { state.sources = []; el.sourceSearch.value = ''; buildSourceList(); changed(); });
-  el.moreClear.addEventListener('click', () => { state.topics = []; state.from = ''; state.to = ''; syncControls(); changed(); });
+  el.moreClear.addEventListener('click', () => { state.topics = []; state.regions = []; state.kinds = []; buildMulti(); state.from = ''; state.to = ''; syncControls(); changed(); });
   el.sourceSearch.addEventListener('input', buildSourceList);
   document.addEventListener('click', (e) => {
     if (!el.sourcePop.hidden && !el.sourcePop.contains(e.target) && e.target !== el.sourceBtn && !el.sourceBtn.contains(e.target)) closePop(el.sourceBtn, el.sourcePop);
@@ -803,6 +829,8 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
       state = Object.assign(d, saved.s);
       if (!Array.isArray(state.sources)) state.sources = [];
       if (!Array.isArray(state.topics)) state.topics = [];
+      if (!Array.isArray(state.regions)) state.regions = [];
+      if (!Array.isArray(state.kinds)) state.kinds = [];
       if (!Array.isArray(state.openClips)) state.openClips = [];
       if (typeof state.loaded !== 'number' || state.loaded < BATCH) state.loaded = BATCH;
       savedScroll = saved.y || 0; savedPanel = !!saved.panel;
