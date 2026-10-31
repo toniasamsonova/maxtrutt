@@ -1,0 +1,1023 @@
+[
+ {
+  "name": "The New York Times",
+  "site": "https://www.nytimes.com",
+  "art_only": true,
+  "feeds": [
+   "https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml",
+   "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml"
+  ]
+ },
+ {
+  "name": "The Guardian",
+  "site": "https://www.theguardian.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.theguardian.com/artanddesign/rss"
+  ]
+ },
+ {
+  "name": "BBC News",
+  "site": "https://www.bbc.co.uk/news",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
+  ]
+ },
+ {
+  "name": "The Telegraph",
+  "site": "https://www.telegraph.co.uk",
+  "art_only": false,
+  "feeds": [
+   "https://www.telegraph.co.uk/art/rss.xml"
+  ]
+ },
+ {
+  "name": "Financial Times",
+  "site": "https://www.ft.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.ft.com/arts?format=rss",
+   "https://www.ft.com/life-arts?format=rss"
+  ]
+ },
+ {
+  "name": "The Independent",
+  "site": "https://www.independent.co.uk",
+  "art_only": false,
+  "feeds": [
+   "https://www.independent.co.uk/arts-entertainment/art/rss"
+  ]
+ },
+ {
+  "name": "The Spectator",
+  "site": "https://www.spectator.co.uk",
+  "art_only": true,
+  "feeds": [
+   "https://www.spectator.co.uk/feed/"
+  ]
+ },
+ {
+  "name": "Times Literary Supplement",
+  "site": "https://www.the-tls.co.uk",
+  "art_only": true,
+  "feeds": [
+   "https://www.the-tls.co.uk/feed/"
+  ]
+ },
+ {
+  "name": "The Economist",
+  "site": "https://www.economist.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.economist.com/culture/rss.xml"
+  ]
+ },
+ {
+  "name": "The Washington Post",
+  "site": "https://www.washingtonpost.com",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.washingtonpost.com/rss/entertainment"
+  ]
+ },
+ {
+  "name": "The Wall Street Journal",
+  "site": "https://www.wsj.com",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.content.dowjones.io/public/rss/RSSLifestyle"
+  ]
+ },
+ {
+  "name": "Los Angeles Times",
+  "site": "https://www.latimes.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.latimes.com/entertainment-arts/rss2.0.xml"
+  ]
+ },
+ {
+  "name": "The Boston Globe",
+  "site": "https://www.bostonglobe.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.bostonglobe.com/arts/?outputType=rss"
+  ]
+ },
+ {
+  "name": "New York Magazine",
+  "site": "https://nymag.com",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.feedburner.com/nymag/vulture"
+  ]
+ },
+ {
+  "name": "NPR",
+  "site": "https://www.npr.org",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.npr.org/1008/rss.xml"
+  ]
+ },
+ {
+  "name": "Forbes",
+  "site": "https://www.forbes.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.forbes.com/art-collectibles/feed/"
+  ]
+ },
+ {
+  "name": "Le Monde",
+  "site": "https://www.lemonde.fr",
+  "art_only": true,
+  "feeds": [
+   "https://www.lemonde.fr/culture/rss_full.xml",
+   "https://www.lemonde.fr/arts/rss_full.xml"
+  ]
+ },
+ {
+  "name": "Le Figaro",
+  "site": "https://www.lefigaro.fr",
+  "art_only": true,
+  "feeds": [
+   "https://www.lefigaro.fr/rss/figaro_culture.xml"
+  ]
+ },
+ {
+  "name": "Libération",
+  "site": "https://www.liberation.fr",
+  "art_only": true,
+  "feeds": [
+   "https://www.liberation.fr/arc/outboundfeeds/rss/category/culture/"
+  ]
+ },
+ {
+  "name": "Les Echos",
+  "site": "https://www.lesechos.fr",
+  "art_only": true,
+  "feeds": [
+   "https://www.lesechos.fr/rss/rss_culture.xml"
+  ]
+ },
+ {
+  "name": "Télérama",
+  "site": "https://www.telerama.fr",
+  "art_only": true,
+  "feeds": [
+   "https://www.telerama.fr/rss/arts.xml"
+  ]
+ },
+ {
+  "name": "El País",
+  "site": "https://elpais.com",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/cultura/portada"
+  ]
+ },
+ {
+  "name": "El Mundo",
+  "site": "https://www.elmundo.es",
+  "art_only": true,
+  "feeds": [
+   "https://e00-elmundo.uecdn.es/elmundo/rss/cultura.xml"
+  ]
+ },
+ {
+  "name": "La Vanguardia",
+  "site": "https://www.lavanguardia.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.lavanguardia.com/rss/cultura.xml"
+  ]
+ },
+ {
+  "name": "Corriere della Sera",
+  "site": "https://www.corriere.it",
+  "art_only": true,
+  "feeds": [
+   "https://xml2.corriereobjects.it/rss/cultura.xml"
+  ]
+ },
+ {
+  "name": "La Repubblica",
+  "site": "https://www.repubblica.it",
+  "art_only": true,
+  "feeds": [
+   "https://www.repubblica.it/rss/cultura/rss2.0.xml"
+  ]
+ },
+ {
+  "name": "La Stampa",
+  "site": "https://www.lastampa.it",
+  "art_only": true,
+  "feeds": [
+   "https://www.lastampa.it/cultura/rss.xml"
+  ]
+ },
+ {
+  "name": "Il Sole 24 Ore",
+  "site": "https://www.ilsole24ore.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.ilsole24ore.com/rss/cultura.xml"
+  ]
+ },
+ {
+  "name": "Der Spiegel",
+  "site": "https://www.spiegel.de",
+  "art_only": true,
+  "feeds": [
+   "https://www.spiegel.de/kultur/index.rss"
+  ]
+ },
+ {
+  "name": "Frankfurter Allgemeine Zeitung",
+  "site": "https://www.faz.net",
+  "art_only": true,
+  "feeds": [
+   "https://www.faz.net/rss/aktuell/feuilleton/"
+  ]
+ },
+ {
+  "name": "Die Zeit",
+  "site": "https://www.zeit.de",
+  "art_only": true,
+  "feeds": [
+   "https://newsfeed.zeit.de/kultur/index"
+  ]
+ },
+ {
+  "name": "Süddeutsche Zeitung",
+  "site": "https://www.sueddeutsche.de",
+  "art_only": true,
+  "feeds": [
+   "https://rss.sueddeutsche.de/rss/Kultur"
+  ]
+ },
+ {
+  "name": "Die Welt",
+  "site": "https://www.welt.de",
+  "art_only": true,
+  "feeds": [
+   "https://www.welt.de/feeds/section/kultur.rss"
+  ]
+ },
+ {
+  "name": "Der Tagesspiegel",
+  "site": "https://www.tagesspiegel.de",
+  "art_only": true,
+  "feeds": [
+   "https://www.tagesspiegel.de/contentexport/feed/kultur"
+  ]
+ },
+ {
+  "name": "Neue Zürcher Zeitung",
+  "site": "https://www.nzz.ch",
+  "art_only": true,
+  "feeds": [
+   "https://www.nzz.ch/feuilleton.rss"
+  ]
+ },
+ {
+  "name": "Der Standard",
+  "site": "https://www.derstandard.at",
+  "art_only": true,
+  "feeds": [
+   "https://www.derstandard.at/rss/kultur"
+  ]
+ },
+ {
+  "name": "Die Presse",
+  "site": "https://www.diepresse.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.diepresse.com/rss/kultur"
+  ]
+ },
+ {
+  "name": "NRC",
+  "site": "https://www.nrc.nl",
+  "art_only": true,
+  "feeds": [
+   "https://www.nrc.nl/rss/"
+  ]
+ },
+ {
+  "name": "de Volkskrant",
+  "site": "https://www.volkskrant.nl",
+  "art_only": true,
+  "feeds": [
+   "https://www.volkskrant.nl/kunst/rss.xml"
+  ]
+ },
+ {
+  "name": "The Irish Times",
+  "site": "https://www.irishtimes.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.irishtimes.com/arts-culture/rss/"
+  ]
+ },
+ {
+  "name": "Deutsche Welle",
+  "site": "https://www.dw.com",
+  "art_only": true,
+  "feeds": [
+   "https://rss.dw.com/rdf/rss-en-cul"
+  ]
+ },
+ {
+  "name": "France 24",
+  "site": "https://www.france24.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.france24.com/en/culture/rss"
+  ]
+ },
+ {
+  "name": "Euronews",
+  "site": "https://www.euronews.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.euronews.com/rss?level=theme&name=culture"
+  ]
+ },
+ {
+  "name": "The Scotsman",
+  "site": "https://www.scotsman.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.scotsman.com/arts-and-culture/rss"
+  ]
+ },
+ {
+  "name": "The Herald",
+  "site": "https://www.heraldscotland.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.heraldscotland.com/arts_ents/rss/"
+  ]
+ },
+ {
+  "name": "CBC",
+  "site": "https://www.cbc.ca",
+  "art_only": true,
+  "feeds": [
+   "https://www.cbc.ca/webfeed/rss/rss-arts"
+  ]
+ },
+ {
+  "name": "The Globe and Mail",
+  "site": "https://www.theglobeandmail.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.theglobeandmail.com/arts/?service=rss"
+  ]
+ },
+ {
+  "name": "National Post",
+  "site": "https://nationalpost.com",
+  "art_only": true,
+  "feeds": [
+   "https://nationalpost.com/category/entertainment/arts/feed"
+  ]
+ },
+ {
+  "name": "Toronto Star",
+  "site": "https://www.thestar.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.thestar.com/search/?f=rss&t=article&c=entertainment/visualarts*&l=50&s=start_time&sd=desc"
+  ]
+ },
+ {
+  "name": "Canadian Art",
+  "site": "https://canadianart.ca",
+  "art_only": false,
+  "feeds": [
+   "https://canadianart.ca/feed/"
+  ]
+ },
+ {
+  "name": "Folha de S.Paulo",
+  "site": "https://www1.folha.uol.com.br",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.folha.uol.com.br/ilustrada/rss091.xml"
+  ]
+ },
+ {
+  "name": "O Globo",
+  "site": "https://oglobo.globo.com",
+  "art_only": true,
+  "feeds": [
+   "https://oglobo.globo.com/rss/cultura"
+  ]
+ },
+ {
+  "name": "La Nación",
+  "site": "https://www.lanacion.com.ar",
+  "art_only": true,
+  "feeds": [
+   "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/cultura/"
+  ]
+ },
+ {
+  "name": "Clarín",
+  "site": "https://www.clarin.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.clarin.com/rss/cultura/"
+  ]
+ },
+ {
+  "name": "El Tiempo",
+  "site": "https://www.eltiempo.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.eltiempo.com/rss/cultura.xml"
+  ]
+ },
+ {
+  "name": "La Tercera",
+  "site": "https://www.latercera.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.latercera.com/arc/outboundfeeds/rss/category/culto/"
+  ]
+ },
+ {
+  "name": "La Jornada",
+  "site": "https://www.jornada.com.mx",
+  "art_only": true,
+  "feeds": [
+   "https://www.jornada.com.mx/rss/cultura.xml"
+  ]
+ },
+ {
+  "name": "Página/12",
+  "site": "https://www.pagina12.com.ar",
+  "art_only": true,
+  "feeds": [
+   "https://www.pagina12.com.ar/rss/secciones/cultura-y-espectaculos/notas"
+  ]
+ },
+ {
+  "name": "Terremoto",
+  "site": "https://terremoto.mx",
+  "art_only": false,
+  "feeds": [
+   "https://terremoto.mx/feed/"
+  ]
+ },
+ {
+  "name": "The Japan Times",
+  "site": "https://www.japantimes.co.jp",
+  "art_only": true,
+  "feeds": [
+   "https://www.japantimes.co.jp/feed/"
+  ]
+ },
+ {
+  "name": "Asahi Shimbun",
+  "site": "https://www.asahi.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.asahi.com/ajw/rss/"
+  ]
+ },
+ {
+  "name": "South China Morning Post",
+  "site": "https://www.scmp.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.scmp.com/rss/96/feed",
+   "https://www.scmp.com/rss/4142/feed"
+  ]
+ },
+ {
+  "name": "The Hindu",
+  "site": "https://www.thehindu.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.thehindu.com/entertainment/art/feeder/default.rss"
+  ]
+ },
+ {
+  "name": "The Indian Express",
+  "site": "https://indianexpress.com",
+  "art_only": true,
+  "feeds": [
+   "https://indianexpress.com/section/lifestyle/art-culture/feed/"
+  ]
+ },
+ {
+  "name": "Hindustan Times",
+  "site": "https://www.hindustantimes.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.hindustantimes.com/feeds/rss/art-culture/rssfeed.xml"
+  ]
+ },
+ {
+  "name": "The Straits Times",
+  "site": "https://www.straitstimes.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.straitstimes.com/news/life/rss.xml"
+  ]
+ },
+ {
+  "name": "The Korea Herald",
+  "site": "https://www.koreaherald.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.koreaherald.com/rss/kh_Culture"
+  ]
+ },
+ {
+  "name": "The Korea Times",
+  "site": "https://www.koreatimes.co.kr",
+  "art_only": true,
+  "feeds": [
+   "https://www.koreatimes.co.kr/www/rss/culture.xml"
+  ]
+ },
+ {
+  "name": "CNA",
+  "site": "https://www.channelnewsasia.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.channelnewsasia.com/rssfeeds/8395986"
+  ]
+ },
+ {
+  "name": "NHK World",
+  "site": "https://www3.nhk.or.jp/nhkworld",
+  "art_only": true,
+  "feeds": [
+   "https://www3.nhk.or.jp/rss/news/cat7.xml"
+  ]
+ },
+ {
+  "name": "Nikkei Asia",
+  "site": "https://asia.nikkei.com",
+  "art_only": true,
+  "feeds": [
+   "https://asia.nikkei.com/rss/feed/nar"
+  ]
+ },
+ {
+  "name": "ABC News (Australia)",
+  "site": "https://www.abc.net.au/news",
+  "art_only": true,
+  "feeds": [
+   "https://www.abc.net.au/news/feed/51120/rss.xml"
+  ]
+ },
+ {
+  "name": "The Sydney Morning Herald",
+  "site": "https://www.smh.com.au",
+  "art_only": true,
+  "feeds": [
+   "https://www.smh.com.au/rss/culture.xml"
+  ]
+ },
+ {
+  "name": "The Age",
+  "site": "https://www.theage.com.au",
+  "art_only": true,
+  "feeds": [
+   "https://www.theage.com.au/rss/culture.xml"
+  ]
+ },
+ {
+  "name": "The Australian",
+  "site": "https://www.theaustralian.com.au",
+  "art_only": true,
+  "feeds": [
+   "https://www.theaustralian.com.au/arts/rss"
+  ]
+ },
+ {
+  "name": "NZ Herald",
+  "site": "https://www.nzherald.co.nz",
+  "art_only": true,
+  "feeds": [
+   "https://www.nzherald.co.nz/arts/rss"
+  ]
+ },
+ {
+  "name": "RNZ",
+  "site": "https://www.rnz.co.nz",
+  "art_only": true,
+  "feeds": [
+   "https://www.rnz.co.nz/rss/arts.xml"
+  ]
+ },
+ {
+  "name": "Stuff",
+  "site": "https://www.stuff.co.nz",
+  "art_only": true,
+  "feeds": [
+   "https://www.stuff.co.nz/rss"
+  ]
+ },
+ {
+  "name": "Art Guide Australia",
+  "site": "https://artguide.com.au",
+  "art_only": false,
+  "feeds": [
+   "https://artguide.com.au/feed/"
+  ]
+ },
+ {
+  "name": "Haaretz",
+  "site": "https://www.haaretz.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.haaretz.com/srv/haaretz-latest-headlines"
+  ]
+ },
+ {
+  "name": "The National",
+  "site": "https://www.thenationalnews.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.thenationalnews.com/arc/outboundfeeds/rss/category/arts-culture/"
+  ]
+ },
+ {
+  "name": "Al Jazeera",
+  "site": "https://www.aljazeera.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.aljazeera.com/xml/rss/all.xml"
+  ]
+ },
+ {
+  "name": "Arab News",
+  "site": "https://www.arabnews.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.arabnews.com/rss.xml"
+  ]
+ },
+ {
+  "name": "Gulf News",
+  "site": "https://gulfnews.com",
+  "art_only": true,
+  "feeds": [
+   "https://gulfnews.com/rss?path=/entertainment"
+  ]
+ },
+ {
+  "name": "L'Orient-Le Jour",
+  "site": "https://www.lorientlejour.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.lorientlejour.com/rss"
+  ]
+ },
+ {
+  "name": "Canvas",
+  "site": "https://canvasonline.com",
+  "art_only": false,
+  "feeds": [
+   "https://canvasonline.com/feed/"
+  ]
+ },
+ {
+  "name": "Daily Maverick",
+  "site": "https://www.dailymaverick.co.za",
+  "art_only": true,
+  "feeds": [
+   "https://www.dailymaverick.co.za/dmrss/"
+  ]
+ },
+ {
+  "name": "Mail & Guardian",
+  "site": "https://mg.co.za",
+  "art_only": true,
+  "feeds": [
+   "https://mg.co.za/feed/"
+  ]
+ },
+ {
+  "name": "News24",
+  "site": "https://www.news24.com",
+  "art_only": true,
+  "feeds": [
+   "https://feeds.news24.com/articles/news24/TopStories/rss"
+  ]
+ },
+ {
+  "name": "Al-Ahram Weekly",
+  "site": "https://english.ahram.org.eg",
+  "art_only": true,
+  "feeds": [
+   "https://english.ahram.org.eg/rss/Arts-Culture.xml"
+  ]
+ },
+ {
+  "name": "Jeune Afrique",
+  "site": "https://www.jeuneafrique.com",
+  "art_only": true,
+  "feeds": [
+   "https://www.jeuneafrique.com/feed/"
+  ]
+ },
+ {
+  "name": "ArtThrob",
+  "site": "https://artthrob.co.za",
+  "art_only": false,
+  "feeds": [
+   "https://artthrob.co.za/feed/"
+  ]
+ },
+ {
+  "name": "Contemporary And",
+  "site": "https://contemporaryand.com",
+  "art_only": false,
+  "feeds": [
+   "https://contemporaryand.com/feed/"
+  ]
+ },
+ {
+  "name": "Hyperallergic",
+  "site": "https://hyperallergic.com",
+  "art_only": false,
+  "feeds": [
+   "https://hyperallergic.com/feed/"
+  ]
+ },
+ {
+  "name": "The Art Newspaper",
+  "site": "https://www.theartnewspaper.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.theartnewspaper.com/rss",
+   "https://www.theartnewspaper.com/feed"
+  ]
+ },
+ {
+  "name": "ARTnews",
+  "site": "https://www.artnews.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.artnews.com/feed/"
+  ]
+ },
+ {
+  "name": "Artnet News",
+  "site": "https://news.artnet.com",
+  "art_only": false,
+  "feeds": [
+   "https://news.artnet.com/feed"
+  ]
+ },
+ {
+  "name": "Artforum",
+  "site": "https://www.artforum.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.artforum.com/feed/"
+  ]
+ },
+ {
+  "name": "Artsy",
+  "site": "https://www.artsy.net",
+  "art_only": false,
+  "feeds": [
+   "https://www.artsy.net/rss/news"
+  ]
+ },
+ {
+  "name": "Art in America",
+  "site": "https://www.artnews.com/c/art-in-america/",
+  "art_only": false,
+  "feeds": [
+   "https://www.artnews.com/c/art-in-america/feed/"
+  ]
+ },
+ {
+  "name": "Cultured",
+  "site": "https://cultured.com",
+  "art_only": false,
+  "feeds": [
+   "https://cultured.com/feed/"
+  ]
+ },
+ {
+  "name": "The Art Market Monitor",
+  "site": "https://www.artmarketmonitor.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.artmarketmonitor.com/feed/"
+  ]
+ },
+ {
+  "name": "Apollo",
+  "site": "https://www.apollo-magazine.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.apollo-magazine.com/feed/"
+  ]
+ },
+ {
+  "name": "ArtReview",
+  "site": "https://artreview.com",
+  "art_only": false,
+  "feeds": [
+   "https://artreview.com/feed/"
+  ]
+ },
+ {
+  "name": "frieze",
+  "site": "https://www.frieze.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.frieze.com/rss.xml"
+  ]
+ },
+ {
+  "name": "Antiques Trade Gazette",
+  "site": "https://www.antiquestradegazette.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.antiquestradegazette.com/rss/"
+  ]
+ },
+ {
+  "name": "Flash Art",
+  "site": "https://flash---art.com",
+  "art_only": false,
+  "feeds": [
+   "https://flash---art.com/feed/"
+  ]
+ },
+ {
+  "name": "Kunstkritikk",
+  "site": "https://kunstkritikk.com",
+  "art_only": false,
+  "feeds": [
+   "https://kunstkritikk.com/feed/"
+  ]
+ },
+ {
+  "name": "The Burlington Magazine",
+  "site": "https://www.burlington.org.uk",
+  "art_only": false,
+  "feeds": [
+   "https://www.burlington.org.uk/feed"
+  ]
+ },
+ {
+  "name": "Weltkunst",
+  "site": "https://www.weltkunst.de",
+  "art_only": false,
+  "feeds": [
+   "https://www.weltkunst.de/feed"
+  ]
+ },
+ {
+  "name": "art Das Kunstmagazin",
+  "site": "https://www.art-magazin.de",
+  "art_only": false,
+  "feeds": [
+   "https://www.art-magazin.de/feed/"
+  ]
+ },
+ {
+  "name": "artpress",
+  "site": "https://www.artpress.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.artpress.com/feed/"
+  ]
+ },
+ {
+  "name": "exibart",
+  "site": "https://www.exibart.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.exibart.com/feed/"
+  ]
+ },
+ {
+  "name": "Artribune",
+  "site": "https://www.artribune.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.artribune.com/feed/"
+  ]
+ },
+ {
+  "name": "Monopol",
+  "site": "https://www.monopol-magazin.de",
+  "art_only": false,
+  "feeds": [
+   "https://www.monopol-magazin.de/rss.xml"
+  ]
+ },
+ {
+  "name": "Beaux Arts Magazine",
+  "site": "https://www.beauxarts.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.beauxarts.com/feed/"
+  ]
+ },
+ {
+  "name": "Connaissance des Arts",
+  "site": "https://www.connaissancedesarts.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.connaissancedesarts.com/feed/"
+  ]
+ },
+ {
+  "name": "ArtAsiaPacific",
+  "site": "https://artasiapacific.com",
+  "art_only": false,
+  "feeds": [
+   "https://artasiapacific.com/rss"
+  ]
+ },
+ {
+  "name": "Ocula",
+  "site": "https://ocula.com",
+  "art_only": false,
+  "feeds": [
+   "https://ocula.com/magazine/rss/"
+  ]
+ },
+ {
+  "name": "Randian",
+  "site": "https://www.randian-online.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.randian-online.com/en/feed/"
+  ]
+ },
+ {
+  "name": "Tokyo Art Beat",
+  "site": "https://www.tokyoartbeat.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.tokyoartbeat.com/en/feed"
+  ]
+ },
+ {
+  "name": "ARTnewsJapan",
+  "site": "https://artnewsjapan.com",
+  "art_only": false,
+  "feeds": [
+   "https://artnewsjapan.com/feed/"
+  ]
+ },
+ {
+  "name": "Bijutsu Techo",
+  "site": "https://bijutsutecho.com",
+  "art_only": false,
+  "feeds": [
+   "https://bijutsutecho.com/rss"
+  ]
+ },
+ {
+  "name": "ArtNexus",
+  "site": "https://artnexus.com",
+  "art_only": false,
+  "feeds": [
+   "https://artnexus.com/feed/"
+  ]
+ },
+ {
+  "name": "Arte!Brasileiros",
+  "site": "https://artebrasileiros.com.br",
+  "art_only": false,
+  "feeds": [
+   "https://artebrasileiros.com.br/feed/"
+  ]
+ },
+ {
+  "name": "Art Collector",
+  "site": "https://www.artcollector.net.au",
+  "art_only": false,
+  "feeds": [
+   "https://www.artcollector.net.au/feed/"
+  ]
+ },
+ {
+  "name": "Il Giornale dell'Arte",
+  "site": "https://www.ilgiornaledellarte.com",
+  "art_only": false,
+  "feeds": [
+   "https://www.ilgiornaledellarte.com/rss"
+  ]
+ }
+]
