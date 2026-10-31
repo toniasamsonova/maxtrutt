@@ -555,7 +555,7 @@ footer p { margin: 0 0 var(--s2); max-width: 72ch; }
     const hasDek = !!(a.subtitle && a.subtitle.trim());
     let html = '<div class="when">' + when + '</div><div class="body">';
     html += '<p class="meta">' + metaBits.join(' ') + '</p>';
-    html += '<h3 class="hed"><a href="' + esc(a.url) + '">' + esc(a.headline) + '</a></h3>';
+    html += '<h3 class="hed"><a href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">' + esc(a.headline) + '</a></h3>';
     if (a.headline_en) html += '<p class="hed-en">' + esc(a.headline_en) + '</p>';
     if (hasDek) html += '<p class="dek">' + esc(a.subtitle) + '</p>';
     if (a.summary) html += '<p class="summary">' + (hasDek ? '<span class="lbl">Wire summary</span>' : '') + esc(a.summary) + '</p>';
